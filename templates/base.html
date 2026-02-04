@@ -13,10 +13,10 @@
         {% if user.is_autheticated %}
             <a href="{% url 'add' %}">Добавить рецепт</a>
             <span>{{ user.username }}</span>
-            {% comment %}<a href="{% url 'logout' %}">Выход</a>{% endcomment %}
+            <a href="{% url 'logout' %}">Выход</a>
         {% else %}
-            {% comment %}<a href="{% url 'login' %}">Войти</a>{% endcomment %}
-            {% comment %}<a href="{% url 'register' %}">Регистрация</a>{% endcomment %}
+            <a href="{% url 'login' %}">Войти</a>
+            <a href="{% url 'register' %}">Регистрация</a>
         {% endif %}
     </nav>
 </header>
