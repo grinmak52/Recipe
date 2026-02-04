@@ -20,7 +20,7 @@ class Recipe(models.Model):
     cooking_time = models.PositiveIntegerField('Время приготовления (мин)')
     image = models.ImageField('Изображение', upload_to='recipes/', blank=True, null=True)
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='recipes')
-    category = models.ManyToManyField(Category, through='RecipeCategory', related_name='recipes')
+    categories = models.ManyToManyField(Category, through='RecipeCategory', related_name='recipes')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
