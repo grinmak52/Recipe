@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<h1>Случайные рецепты</h1>
+
+{% for recipe in recipes %}
+  <div>
+    <h2>
+      <a href="{% url 'detail' recipe.pk %}">
+        {{ recipe.title }}
+      </a>
+    </h2>
+    <p>{{ recipe.description|truncatechars:100 }}</p>
+  </div>
+{% empty %}
+  <p>Рецептов пока нет</p>
+{% endfor %}
+
+{% endblock %}

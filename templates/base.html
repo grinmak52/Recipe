@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Рецепты{% endblock %}</title>
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="{% url 'index' %}">Главная</a>
+
+        {% if user.is_autheticated %}
+            <a href="{% url 'add' %}">Добавить рецепт</a>
+            <span>{{ user.username }}</span>
+            {% comment %}<a href="{% url 'logout' %}">Выход</a>{% endcomment %}
+        {% else %}
+            {% comment %}<a href="{% url 'login' %}">Войти</a>{% endcomment %}
+            {% comment %}<a href="{% url 'register' %}">Регистрация</a>{% endcomment %}
+        {% endif %}
+    </nav>
+</header>
+
+<hr>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+</body>
+</html>
