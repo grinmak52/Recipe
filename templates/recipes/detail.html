@@ -21,9 +21,14 @@
 <h3>Категории</h3>
 <ul>
     {% for category in recipe.categories.all %}
-        <li>{{ category.name }}</li>
+        <li>
+            <a href="{% url 'category' category.slug %}">
+                {{ category.name }}
+            </a>
+        </li>
     {% endfor %}
 </ul>
+
 
 {% if user == recipe.author %}
     <a href="{% url 'edit' recipe.pk %}">Редактировать</a>
