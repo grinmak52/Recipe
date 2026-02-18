@@ -1,0 +1,25 @@
+[project]
+name = "recipe"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Skrip01",email = "168160103+Skrip01@users.noreply.github.com"}
+]
+license = {text = "MIT"}
+requires-python = ">=3.14"
+dependencies = [
+    "django (>=6.0.2,<7.0.0)",
+    "pillow (>=12.1.1,<13.0.0)",
+    "slugify (>=0.0.1,<0.0.2)",
+    "fastapi (>=0.129.0,<0.130.0)",
+    "pydantic-settings (>=2.13.0,<3.0.0)",
+    "sqlalchemy[asyncio] (>=2.0.46,<3.0.0)",
+    "aiosqlite (>=0.22.1,<0.23.0)",
+    "uvicorn (>=0.41.0,<0.42.0)",
+    "python-slugify (>=8.0.4,<9.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
