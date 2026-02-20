@@ -1,6 +1,11 @@
 from pydantic import BaseModel, ConfigDict, Field
 
 
+class MessageResponse(BaseModel):
+    message: str
+    recipe_id: int | None = None
+
+
 class RecipeBase(BaseModel):
     title: str = Field(min_length=1, max_length=100)
     description: str

@@ -5,7 +5,12 @@ from sqlalchemy.ext.asyncio.session import AsyncSession
 from fastapi_app.core.models import db_helper
 from . import crud
 from .dependencies import get_current_user_id, get_recipe_by_id
-from .schemas import Recipe as RecipeSchema, RecipeCreate, RecipeUpdate
+from .schemas import (
+    MessageResponse,
+    Recipe as RecipeSchema,
+    RecipeCreate,
+    RecipeUpdate,
+)
 
 router = APIRouter(tags=["Recipes"])
 
@@ -20,7 +25,7 @@ async def get_recipes(
 @router.post(
     "/",
     status_code=status.HTTP_201_CREATED,
-    response_model=RecipeSchema,
+    response_model=MessageResponse,
 )
 async def create_recipe(
     recipe_in: RecipeCreate,
@@ -28,7 +33,8 @@ async def create_recipe(
     author_id: int = Depends(get_current_user_id),
 ):
     try:
-        return await crud.create_recipe(session, recipe_in, author_id=author_id)
+        recipe = await crud.create_recipe(session, recipe_in, author_id=author_id)
+        return MessageResponse(message="Recipe created successfully", recipe_id=recipe.id)
     except IntegrityError as exc:
         msg = str(getattr(exc, "orig", exc)).lower()
         if "duplicate key value" in msg or "unique" in msg:
@@ -54,14 +60,15 @@ async def get_recipe(
     return recipe
 
 
-@router.patch("/{recipe_id}/", response_model=RecipeSchema)
+@router.patch("/{recipe_id}/", response_model=MessageResponse)
 async def update_recipe(
     recipe_update: RecipeUpdate,
     recipe=Depends(get_recipe_by_id),
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
     try:
-        return await crud.update_recipe(session, recipe, recipe_update)
+        updated = await crud.update_recipe(session, recipe, recipe_update)
+        return MessageResponse(message="Recipe updated successfully", recipe_id=updated.id)
     except IntegrityError as exc:
         msg = str(getattr(exc, "orig", exc)).lower()
         if "duplicate key value" in msg or "unique" in msg:
@@ -82,10 +89,12 @@ async def update_recipe(
 
 @router.delete(
     "/{recipe_id}/",
-    status_code=204,
+    status_code=status.HTTP_200_OK,
+    response_model=MessageResponse,
 )
 async def delete_recipe(
     recipe=Depends(get_recipe_by_id),
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
-) -> None:
-    return await crud.delete_recipe(session, recipe)
+) -> MessageResponse:
+    await crud.delete_recipe(session, recipe)
+    return MessageResponse(message="Recipe deleted successfully", recipe_id=recipe.id)
