@@ -1,4 +1,5 @@
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.engine import Result
 from slugify import slugify
@@ -24,13 +25,20 @@ async def get_recipe(
 async def create_recipe(
     session: AsyncSession,
     recipe_in: RecipeCreate,
+    author_id: int,
 ) -> Recipe | None:
     recipe_data = recipe_in.model_dump()
     recipe_data["slug"] = slugify(recipe_in.title)
+    recipe_data.setdefault("image", "")
+    recipe_data["author_id"] = author_id
 
     recipe = Recipe(**recipe_data)
     session.add(recipe)
-    await session.commit()
+    try:
+        await session.commit()
+    except IntegrityError:
+        await session.rollback()
+        raise
     await session.refresh(recipe)
     return recipe
 
@@ -41,8 +49,15 @@ async def update_recipe(
     recipe_update: RecipeUpdate,
 ) -> Recipe:
     for name, value in recipe_update.model_dump(exclude_unset=True).items():
+        if name == "image" and value is None:
+            value = ""
         setattr(recipe, name, value)
-    await session.commit()
+    try:
+        await session.commit()
+    except IntegrityError:
+        await session.rollback()
+        raise
+    await session.refresh(recipe)
     return recipe
 
 
