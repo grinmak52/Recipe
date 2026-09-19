@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}recipe list{% endblock title %}
+{% block body %}
+  <h1>Recipe List</h1>
+  <div>
+    {% for recipe in object_list %}
+      <div>
+        <p>Recipe name: {{ recipe.name }}</p>
+        <p>Description: {{ recipe.description }}</p>
+        <p>Ingredients: {{ recipe.ingredients }}</p>
+        <p>Steps: {{ recipe.steps }}</p>
+      </div>
+    {% empty %}
+      <p>No Recipe</p>
+    {% endfor %}
+  </div>
+{% endblock body %}
