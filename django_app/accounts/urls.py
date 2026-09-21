@@ -1,10 +1,10 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
-app_name = 'recipe'
+app_name = 'accounts'
 
 urlpatterns = [
-    path("", views.RecipeView.as_view(), name="recipe"),
-    path("<slug:slug>", views.RecipeDetailView.as_view(), name="recipe_detail"),
-    path("create/", views.RecipeCreateView.as_view(), name="recipe_create"),
+    path('login/', views.UserLoginView.as_view(), name='login' ),
+    path("register/", views.RegisterView.as_view(), name="register"),
+    path("logout/", views.LogoutView.as_view(), name="logout"),
 ]

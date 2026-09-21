@@ -1,10 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}
+  Detail #{{ object.pk }}
+{% endblock title %}
+
+{% block body %}
+  <h1>Detail {{ object.name }}</h1>
+  {% if object.image %}
+    <img src="{{ object.image.url }}" alt="{{ object.name }}" width="400">
+  {% endif %}
+  <div>Description: {{ object.description }}</div>
+  <div>Step: {{ object.step }}</div>
+  <div>Ingredients: {{ object.ingredients }}</div>
+  <div>Created: {{ object.created }}</div>
+  <div>Updated: {{ object.updated }}</div>
+  <div>Category: {{ object.category }}</div>
+  <div>User: {{ object.user }}</div>
+
+  {% if request.user == object.user %}
+    <a href="{% url 'recipe:recipe_update' slug=object.slug %}">Update</a>
+    <a href="{% url 'recipe:recipe_delete' slug=object.slug %}">Delete</a>
+  {% endif %}
+
+  <a href="{% url 'recipe:recipe_list' %}">Назад к списку рецептов</a>
+{% endblock body %}

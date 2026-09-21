@@ -1,7 +1,6 @@
-```django
 {% extends "base.html" %}
 
-{% block content %}
+{% block body %}
     <h1>Регистрация</h1>
 
     <form method="post">
@@ -17,4 +16,3 @@
         <a href="{% url 'accounts:login' %}">Войти</a>
     </p>
 {% endblock %}
-```
