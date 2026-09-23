@@ -3,14 +3,6 @@
 {% block body %}
   <h1>Recipe List</h1>
 
-  {% if messages %}
-    <ul>
-      {% for message in messages %}
-        <li class="{{ message.tags }}">{{ message }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
-
   <div>
     {% for recipe in object_list %}
       <div>

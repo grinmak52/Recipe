@@ -17,6 +17,7 @@ class Recipe(models.Model):
     description = models.TextField()
     step = models.TextField()
     ingredients = models.TextField()
+    cooking_time = models.PositiveIntegerField(help_text="В минутах")
     image = models.ImageField(upload_to="recipe/", blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

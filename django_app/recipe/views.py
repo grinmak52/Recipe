@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
 from recipe.forms import RecipeForm
-from recipe.mxins import RecipeOwnerRequiredMixin
+from recipe.mixins import RecipeOwnerRequiredMixin
 from recipe.models import Recipe
 from recipe.service import generate_unique_slug
 
